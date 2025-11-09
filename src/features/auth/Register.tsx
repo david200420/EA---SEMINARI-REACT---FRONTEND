@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { register as registerService } from './authService';
 import type { User } from '../../modules/user';
 import './AuthForm.css'; 
+import { toast } from 'react-toastify';
 
 
 type RegisterFormData = User & {//añadimos el atributo a los que YA TIENE user
@@ -19,14 +20,12 @@ export const Register: React.FC = () => {
   } = useForm<RegisterFormData>();
   
   const navigate = useNavigate();
-  const [apiError, setApiError] = useState<string | null>(null);
 
   // 'watch' nos deja ver el valor de 'password' para poder compararlo
   const password = watch('password');
 
   const onSubmit = async (data: RegisterFormData) => {
-    setApiError(null);
-    
+
 // esto basicamente esxluye el primer atributo del objeto data
 // y crea un nou objecte sense aquest atribut
     const { confirmPassword, ...userCredentials } = data;
@@ -34,10 +33,10 @@ export const Register: React.FC = () => {
     try {
       await registerService(userCredentials);
       
-      alert('¡Registro exitoso! Ahora puedes iniciar sesión.');
+      toast.success('¡Registro exitoso! Ahora puedes iniciar sesión.');
       navigate('/login'); // Redirige al login
     } catch (error: any) {
-      setApiError(error?.response?.data?.message || 'Error en el registro');
+      toast.error(error?.response?.data?.message || 'Error en el registro');
     }
   };
 
@@ -109,8 +108,6 @@ export const Register: React.FC = () => {
           <span>Confirmar Password</span>
         </label>
         {errors.confirmPassword && <p className="input-error">{errors.confirmPassword.message}</p>}
-
-        {apiError && <p className="form-error">{apiError}</p>}
 
         <button type="submit" className="submit">Registrarse</button>
         <p className="signin">

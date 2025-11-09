@@ -113,6 +113,18 @@
 
 }
 
+.event-header {
+  position: relative;
+  margin-bottom: 40px;
+  text-align: center;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #00bfff; /* azul a juego */
+  text-transform: uppercase;
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
 
 .title-container {
   background-color: #3333332e; /* Mismo fondo que el form */
